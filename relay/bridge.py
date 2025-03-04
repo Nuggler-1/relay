@@ -2,7 +2,7 @@ from utils.eth_account import AccountEVM
 from utils.constants import CHAIN_MAP, ZERO_ADDRESS
 from .constants import RELAY_URL
 from config import RPC
-from utils.utils import async_error_handler, error_handler
+from utils.utils import async_error_handler, error_handler, decimalToInt
 from loguru import logger
 from web3 import AsyncWeb3
 import requests 
@@ -61,7 +61,7 @@ class Bridge(AccountEVM):
 
         """amount in decimals"""
         
-        logger.info(f'{self.address}: starting bridge from {self._chain_from} to {self._chain_to} via Relay')
+        logger.info(f'{self.address}: bridging {decimalToInt(amount,18)} from {self._chain_from} to {self._chain_to} via Relay')
 
         tx = self._quote_tx_data(amount, from_contract, to_contract)
         if not tx: 

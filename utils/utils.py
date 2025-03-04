@@ -127,5 +127,5 @@ def sync_sleep(type_delay = Literal['Account', 'Action'], account_address: str |
         case _: 
             raise Exception('Wrong sleep type in delay function (async sleep)')
     sleep_time = random.uniform(*sleep_time)
-    logger.info(f'{account_address if account_address else ""}: waiting {int(sleep_time)} seconds before next {type_delay}')
+    logger.info(f'{account_address + ":" if account_address else ""} waiting {int(sleep_time)} seconds before next {type_delay}')
     time.sleep(sleep_time)
