@@ -12,7 +12,7 @@
 
 ### Конфигурация
 
-В папке `user_files` заполни файлы `private_keys.txt`, `deposit_addresses.txt` и `proxies.txt` 
+В папке `user_data` заполни файлы `private_keys.txt`, `deposit_addresses.txt` и `proxies.txt` 
 
 *прокси в формате user:pass@ip:port*
 
