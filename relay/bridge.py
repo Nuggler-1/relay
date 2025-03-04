@@ -61,7 +61,7 @@ class Bridge(AccountEVM):
 
         """amount in decimals"""
         
-        logger.info(f'{self.address}: bridging {decimalToInt(amount,18)} from {self._chain_from} to {self._chain_to} via Relay')
+        logger.info(f'{self.address}: bridging {decimalToInt(amount,18)} ETH from {self._chain_from} to {self._chain_to} via Relay')
 
         tx = self._quote_tx_data(amount, from_contract, to_contract)
         if not tx: 
