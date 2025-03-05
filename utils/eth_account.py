@@ -3,14 +3,14 @@ from web3 import AsyncWeb3, AsyncHTTPProvider
 from config import MAX_TX_WAIT, GAS_MULT, TX_RETRIES, GAS_PRICE_MULT, RPC, USE_PROXIES_IN_WEB3
 from .utils import async_error_handler as error_handler
 from .utils import decimalToInt, intToDecimal, get_proxy
-from .constants import ERC20_ABI, DEFAULT_DEPOSIT_ADDRESSES, DEFAULT_PRIVATE_KEYS, CHAIN_MAP
+from .constants import ERC20_ABI, DEFAULT_DEPOSIT_ADDRESSES, DEFAULT_PRIVATE_KEYS, CHAIN_MAP, TESTNETS_CHAIN_MAP
 from loguru import logger
 import asyncio
 
 
 class AccountEVM: 
 
-    def __init__(self, chain_name:str, private_key: str, proxy:bool = USE_PROXIES_IN_WEB3, tx_timeout:int = MAX_TX_WAIT,):
+    def __init__(self, chain_name:str, private_key: str, proxy:bool = USE_PROXIES_IN_WEB3, tx_timeout:int = MAX_TX_WAIT, testnet:bool = False):
         
         if proxy:
             proxies = get_proxy(private_key)
@@ -21,7 +21,10 @@ class AccountEVM:
         self._private_key = private_key
         self._account = self.web3.eth.account.from_key(private_key)
         self._tx_timeout = tx_timeout
-        self._eip1559 = CHAIN_MAP.eip1559_chains[chain_name]
+        if testnet:
+            self._eip1559 = TESTNETS_CHAIN_MAP.eip1559_chains[chain_name]
+        else:
+            self._eip1559 = CHAIN_MAP.eip1559_chains[chain_name]
 
         self.address = self._account.address
         self.proxy = proxy
@@ -194,9 +197,9 @@ class AccountEVM:
         decimals = await contract.functions.decimals().call()
         return decimals
     
-    async def get_deposit_wallet(self,):
+    async def get_deposit_wallet(self,deposit_addresses_path:str = DEFAULT_DEPOSIT_ADDRESSES):
 
-        with open(DEFAULT_DEPOSIT_ADDRESSES, 'r') as f: 
+        with open(deposit_addresses_path, 'r') as f: 
             dep_addresses = f.read().splitlines()
 
         with open(DEFAULT_PRIVATE_KEYS, 'r') as f: 

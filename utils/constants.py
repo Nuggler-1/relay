@@ -5,12 +5,39 @@ BASE_PATH = 'user_data/'
 DEFAULT_PRIVATE_KEYS = BASE_PATH + 'private_keys.txt'
 DEFAULT_DEPOSIT_ADDRESSES = BASE_PATH + 'deposit_addresses.txt'
 DEFAULT_PROXIES = BASE_PATH + 'proxies.txt'
+DEFAULT_ABSTRACT_ADDRESSES = BASE_PATH + 'abstract_addresses.txt'
 
 @dataclass
 class ChainMap: 
     idToName: dict
     nameToId: dict
     eip1559_chains: list
+
+TESTNETS_CHAIN_MAP = ChainMap(
+    idToName= {
+        84532:'BASE-SEPOLIA',
+        11155111: 'SEPOLIA',
+        421614: 'ARBITRUM-SEPOLIA',
+        11155420: 'OP-SEPOLIA',
+        1301: 'UNICHAIN-SEPOLIA',
+        11124: 'ABSTRACT'
+    },
+    nameToId= {
+        'BASE-SEPOLIA': 84532,
+        'SEPOLIA': 11155111,
+        'ARBITRUM-SEPOLIA': 421614,
+        'OP-SEPOLIA': 11155420,
+        'UNICHAIN-SEPOLIA': 1301,
+        'ABSTRACT': 11124
+    },
+    eip1559_chains={
+        'BASE-SEPOLIA': True,
+        'SEPOLIA': True,
+        'ARBITRUM-SEPOLIA': True,
+        'OP-SEPOLIA': True,
+        'UNICHAIN-SEPOLIA': True,
+    }
+)
 
 CHAIN_MAP = ChainMap(
     idToName={
@@ -26,7 +53,8 @@ CHAIN_MAP = ChainMap(
         57073 : 'INK',
         1868 : 'SONEIUM',
         7777777: 'ZORA',
-        34443: 'MODE'
+        34443: 'MODE',
+        2741: 'ABSTRACT'
 
     },
 
@@ -43,7 +71,8 @@ CHAIN_MAP = ChainMap(
         'INK': 57073,
         'SONEIUM': 1868 ,
         'ZORA': 7777777,
-        'MODE': 34443 
+        'MODE': 34443 ,
+        'ABSTRACT': 2741
 
     }, 
     eip1559_chains = {

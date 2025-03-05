@@ -1,7 +1,7 @@
 
 from relay.bridge import Bridge as RelayBridge
 from exchange.manager import CexManager
-from utils.constants import DEFAULT_PRIVATE_KEYS, CHAIN_MAP
+from utils.constants import DEFAULT_PRIVATE_KEYS, CHAIN_MAP, TESTNETS_CHAIN_MAP
 from utils.eth_account import AccountEVM
 from utils.utils import round_decimal_value, intToDecimal, sync_sleep, sleep, async_error_handler 
 from config import RANDOMIZE, ACCOUNTS_DELAY, RPC, AMOUNT_TYPE, ACTIONS_DELAY
@@ -30,14 +30,15 @@ class Runner():
         chain_name:str, 
         amount_range: list[int|float], 
         amount_type: Literal['Percent', 'Absolute'] = AMOUNT_TYPE, 
-        token_address: str | None = None
+        token_address: str | None = None,
+        mode: Literal['TESTNET', 'MAINNET'] = 'MAINNET'
     ): 
 
         """
         if no token address then native
         amount either in absolute(human readable) or percent 
         """
-        account = AccountEVM(chain_name, private_key)
+        account = AccountEVM(chain_name, private_key, testnet=True if mode == 'TESTNET' else False)
 
         if token_address: 
             balance, decimals = await account.get_erc20_balance(token_address, fixed_decimal=True, return_decimal=True)
@@ -70,10 +71,11 @@ class Runner():
         chain_from: str, 
         chain_to:str, 
         amount_range:list[float | int], 
+        mode: Literal['TESTNET', 'MAINNET']
     ):
         
-        bridge = RelayBridge(chain_from, chain_to, private_key)   
-        amount = await self._generate_amount(private_key, chain_from, amount_range)    
+        bridge = RelayBridge(chain_from, chain_to, private_key, mode=mode)   
+        amount = await self._generate_amount(private_key, chain_from, amount_range, mode=mode)    
         return await bridge.bridge(amount)
 
     @async_error_handler('cex deposit runner function', retries=1)
@@ -204,11 +206,20 @@ class Runner():
                                 sync_sleep('Account')
                         
                     case "Bridge ETH": 
-                        
-                        chain_choices = list(CHAIN_MAP.nameToId.keys())
+
+                        mode = questionary.select(
+                            "choose mode:", 
+                            choices=['MAINNET', 'TESTNET']
+                        ).unsafe_ask()
+
+                        if mode == 'MAINNET':    
+                            chain_choices = list(CHAIN_MAP.nameToId.keys())
+                        else: 
+                            chain_choices = list(TESTNETS_CHAIN_MAP.nameToId.keys())
+                            
                         chain_from = questionary.select(
                             "choose chain from:", 
-                            choices=chain_choices
+                            choices=[i for i in chain_choices if 'ABSTRACT' not in i]
                         ).unsafe_ask()
                         chain_choices.remove(chain_from)
                         chain_to = questionary.select(
@@ -225,7 +236,7 @@ class Runner():
 
                         for private_key in self.private_keys:
                             asyncio.run(self._single_bridge(
-                                private_key, chain_from, chain_to, [min_amount, max_amount]
+                                private_key, chain_from, chain_to, [min_amount, max_amount], mode
                             ))
                             if private_key != self.private_keys[-1]:
                                 sync_sleep('Account')

@@ -44,7 +44,13 @@ RPC = {
     'UNICHAIN': 'https://mainnet.unichain.org',
     'BLAST': 'https://rpc.blast.io',
     'ETHEREUM': 'https://gateway.tenderly.co/public/mainnet',
-    'BASE': 'https://base.blockpi.network/v1/rpc/public'
+    'BASE': 'https://base.blockpi.network/v1/rpc/public',
+    'SEPOLIA': 'https://ethereum-sepolia.rpc.subquery.network/public',
+    'BASE-SEPOLIA': 'https://base-sepolia-rpc.publicnode.com',
+    'OP-SEPOLIA': 'https://sepolia.optimism.io',
+    'ARBITRUM-SEPOLIA': 'https://arbitrum-sepolia-rpc.publicnode.com',
+    'UNICHAIN-SEPOLIA':'https://unichain-sepolia-rpc.publicnode.com',
+
 }
 
 #Можно поиграться с этими настройками если очень хочется
