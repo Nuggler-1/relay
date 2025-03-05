@@ -12,7 +12,7 @@
 
 ### Конфигурация
 
-В папке `user_data` заполни файлы `private_keys.txt`, `deposit_addresses.txt` и `proxies.txt` 
+В папке `user_data` заполни файлы `private_keys.txt`, `deposit_addresses.txt`, `abstract_addresses.txt` и `proxies.txt` 
 
 *прокси в формате user:pass@ip:port*
 
@@ -35,6 +35,8 @@
 **— Bridge ETH** <br>
 Будет бриджить эфир на загруженных кошельках по указанному маршруту.<br>
 *Можно зайти по пути utils/constants.py и отредактировать CHAIN_MAP чтобы добавить нужные вам сети <br>(chain id есть на chainlist.org)*
+<br>
+*Для использования абстракта нужно загрузить твои абстракт адреса 1к1 с приватниками откуда будет бридж*
 
 ### Запуск
 
