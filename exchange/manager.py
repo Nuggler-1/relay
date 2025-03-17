@@ -105,7 +105,7 @@ class CexManager(AccountEVM):
                 'value': amount,
                 'gas': 21_000
             }
-            logger.info(f'{self.address}: sending {decimalToInt(amount)} {token_name} to {dep_address}')
+            logger.info(f'{self.address}: sending {decimalToInt(amount, 18)} {token_name} to {dep_address}')
             return await self.send_tx(tx)
         
         else: 
