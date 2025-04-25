@@ -14,7 +14,7 @@ class AccountEVM:
         
         if proxy:
             proxies = get_proxy(private_key)
-            self.web3 = AsyncWeb3(AsyncHTTPProvider(RPC[chain_name], request_kwargs={"proxies": proxies}))
+            self.web3 = AsyncWeb3(AsyncHTTPProvider(RPC[chain_name], request_kwargs={"proxy": proxies}))
         else: 
             self.web3 = AsyncWeb3(AsyncHTTPProvider(RPC[chain_name]))
 
