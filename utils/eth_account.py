@@ -27,7 +27,7 @@ class AccountEVM:
             self._eip1559 = CHAIN_MAP.eip1559_chains[chain_name]
 
         self.address = self._account.address
-        self.proxy = proxy
+        self.proxy = proxies
 
     async def _get_priority_fees(self,): 
 
