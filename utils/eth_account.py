@@ -17,6 +17,7 @@ class AccountEVM:
             self.web3 = AsyncWeb3(AsyncHTTPProvider(RPC[chain_name], request_kwargs={"proxy": proxies['http']}))
         else: 
             self.web3 = AsyncWeb3(AsyncHTTPProvider(RPC[chain_name]))
+            proxies = None
 
         self._private_key = private_key
         self._account = self.web3.eth.account.from_key(private_key)
